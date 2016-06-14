@@ -1,26 +1,30 @@
-var app = require('express')()
+var express = require('express')
+	, app = express()
 	, bodyParser = require('body-parser')
 	;
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 app.use(bodyParser.text({type: 'text/*'}));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function(req, res, next){
-	res.send("wow");
-});
-app.post('/', function(req, res, next){
-  console.log(req.body);
-  res.send(req.body);
+	console.log("app request to /");
+	return res.send("wow");
 });
 
-app.use(function(res, req, next){
+app.post('/', function(req, res, next){
+  console.log(req.body);
+  //res.json({'test': "oh boy"});
+  res.json(req.body);
+});
+
+
+app.use(function(err, res, req, next){
+  console.error(err.stack);
+  console.log(req);
   res.status(404).send("NOPE");
 });
-app.listen(4000, function(error){
-  if(error) {
-    console.error(error);
-  } else {
-    console.log("listening on port 4000");
-  }
+
+app.listen(4000, function(){
+  console.log("listening on port 4000");
 });
