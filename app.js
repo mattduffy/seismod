@@ -1,7 +1,9 @@
-var express = require('express')
-	, app = express()
-	, bodyParser = require('body-parser')
-	;
+var dotenv = require('dotenv').config()
+  , express = require('express')
+  , app = express()
+  , bodyParser = require('body-parser')
+  , port = process.env['PORT'] || 80
+  ;
 
 app.use(bodyParser.json());
 app.use(bodyParser.text({type: 'text/*'}));
@@ -14,7 +16,6 @@ app.get('/', function(req, res, next){
 
 app.post('/', function(req, res, next){
   console.log(req.body);
-  //res.json({'test': "oh boy"});
   res.json(req.body);
 });
 
@@ -25,6 +26,6 @@ app.use(function(err, res, req, next){
   res.status(404).send("NOPE");
 });
 
-app.listen(4000, function(){
-  console.log("listening on port 4000");
+app.listen(port, function(){
+  console.log("listening on port %d", port);
 });
