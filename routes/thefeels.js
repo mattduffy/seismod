@@ -1,5 +1,17 @@
 'use strict';
-let slackToken = process.env['SEISMOD_THEFEELS'];
+
+router.post('/',(req,res,next)=>{
+  console.log(req.body);
+  let feels = {
+    "text": "Oh, so many feels.",
+    "attachments": [
+      {
+        "text":"How can you get any work done with all of those feels happening?"
+      }
+    ]
+  };
+  res.status(200).json(feels);
+});
 
 
 /*
