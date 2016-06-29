@@ -16,8 +16,6 @@ mongoose.connect(dburl, (err)=>{
   }
 });
 
-const SlackTeam = require('./models/slackTeam.js');
-
 app.use(bodyParser.json());
 app.use(bodyParser.text({type: 'text/*'}));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -26,10 +24,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 let mainRoutes = require('./routes/main');
 app.use(mainRoutes);
 
-app.use((err, res, req, next)=>{
-  console.error(err.stack);
-  console.log(req);
-  res.status(404).send("NOPE");
+require('./routes/thefeels')(app, mongoose);
+
+app.use((res, req, next)=>{
+  //console.trace(err.stack);
+  //console.log(req);
+  res.status(404).send(err);
 });
 
 app.listen(port, (error)=>{
